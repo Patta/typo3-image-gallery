@@ -18,3 +18,9 @@
 /.Build/
 /composer.lock
 /Tests/Build/.phpunit.result.cache
+
+/.ddev/*
+!/.ddev/config.yaml
+/.php-cs-fixer.cache
+/config
+/var/
