@@ -130,7 +130,7 @@ class FileCollectionRepository extends Typo3FileCollectionRepository implements 
                 ->select('uid')
                 ->from(self::TABLE_NAME)
                 ->where($queryBuilder->expr()->eq($this->languageField, $queryBuilder->createNamedParameter($this->languageUid, \PDO::PARAM_INT)))->andWhere($queryBuilder->expr()->eq($this->languagePointer, $queryBuilder->createNamedParameter($fileCollectionUid, \PDO::PARAM_INT)))->executeQuery()
-                ->fetchColumn();
+                ->fetchOne();
 
             if ($localizedFileCollection) {
                 $fileCollectionUid = (int)$localizedFileCollection;
