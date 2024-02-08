@@ -126,9 +126,7 @@ class CollectionInfo
 
         $properties = $queryBuilder
             ->select('bm_image_gallery_description', 'bm_image_gallery_location', 'bm_image_gallery_date')
-            ->from('sys_file_collection')
-            ->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($this->identifier, \PDO::PARAM_INT)))
-            ->execute()
+            ->from('sys_file_collection')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($this->identifier, \PDO::PARAM_INT)))->executeQuery()
             ->fetch();
 
         $this->setDescription($properties['bm_image_gallery_description'] ?? '');

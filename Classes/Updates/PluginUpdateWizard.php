@@ -79,9 +79,7 @@ class PluginUpdateWizard implements UpgradeWizardInterface
             $queryBuilder
                 ->update('tt_content')
                 ->set('pi_flexform', $flexForm ?? '')
-                ->set('list_type', $listType)
-                ->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($plugin['uid'], \PDO::PARAM_INT)))
-                ->execute();
+                ->set('list_type', $listType)->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($plugin['uid'], \PDO::PARAM_INT)))->executeStatement();
         }
 
         return true;
@@ -118,16 +116,14 @@ class PluginUpdateWizard implements UpgradeWizardInterface
         return GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('tt_content')
             ->select('*')
-            ->from('tt_content')
-            ->where(sprintf('list_type = "%s"', static::SOURCE_LIST_TYPE))
-            ->execute()
+            ->from('tt_content')->where(sprintf('list_type = "%s"', static::SOURCE_LIST_TYPE))->executeQuery()
             ->fetchAll();
     }
 
     protected function getTargetListType(array $flexForm): string
     {
         $controllerAction = $flexForm['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
-        $controllerAction = htmlspecialchars_decode($controllerAction);
+        $controllerAction = htmlspecialchars_decode((string)$controllerAction);
 
         return static::TARGET_LIST_TYPES[$controllerAction];
     }
@@ -140,16 +136,16 @@ class PluginUpdateWizard implements UpgradeWizardInterface
 
                 $sDEFSettings = [
                     'settings.collections' => [
-                        'vDEF' => $flexForm['data']['sDEF']['lDEF']['settings.collections']['vDEF']
+                        'vDEF' => $flexForm['data']['sDEF']['lDEF']['settings.collections']['vDEF'],
                     ],
                     'settings.mode' => [
-                        'vDEF' => $mode
+                        'vDEF' => $mode,
                     ],
                 ];
 
                 if ($mode == 1) {
                     $sDEFSettings['settings.galleryPage'] = [
-                        'vDEF' => $flexForm['data']['sDEF']['lDEF']['settings.galleryPage']['vDEF']
+                        'vDEF' => $flexForm['data']['sDEF']['lDEF']['settings.galleryPage']['vDEF'],
                     ];
                 }
 
@@ -158,8 +154,8 @@ class PluginUpdateWizard implements UpgradeWizardInterface
             case 'bmimagegallery_selectedgallery':
                 $sDEFSettings = [
                     'settings.collection' => [
-                        'vDEF' => $flexForm['data']['sDEF']['lDEF']['settings.collection']['vDEF']
-                    ]
+                        'vDEF' => $flexForm['data']['sDEF']['lDEF']['settings.collection']['vDEF'],
+                    ],
                 ];
                 break;
         }
@@ -175,14 +171,14 @@ class PluginUpdateWizard implements UpgradeWizardInterface
         if (($mode ?? null) != 1) {
             $data['data']['list']['lDEF'] = [
                 'settings.maxItems' => [
-                    'vDEF' => $flexForm['data']['sDEF']['list']['settings.maxItems']['vDEF'] ?? 0
+                    'vDEF' => $flexForm['data']['sDEF']['list']['settings.maxItems']['vDEF'] ?? 0,
                 ],
                 'settings.orderBy' => [
-                    'vDEF' => $flexForm['data']['sDEF']['list']['settings.orderBy']['vDEF']
+                    'vDEF' => $flexForm['data']['sDEF']['list']['settings.orderBy']['vDEF'],
                 ],
                 'settings.sortingOrder' => [
-                    'vDEF' => $flexForm['data']['sDEF']['list']['settings.sortingOrder']['vDEF']
-                ]
+                    'vDEF' => $flexForm['data']['sDEF']['list']['settings.sortingOrder']['vDEF'],
+                ],
             ];
         }
 

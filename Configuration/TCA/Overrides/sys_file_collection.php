@@ -1,5 +1,9 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 defined('TYPO3') || die('Access denied.');
 
 $temporaryColumns = [
@@ -31,9 +35,7 @@ $temporaryColumns = [
         'label' => 'LLL:EXT:bm_image_gallery/Resources/Private/Language/locallang_be.xlf:bm_image_gallery_date',
         'config' => [
             'default' => 0,
-            'type' => 'input',
-            'renderType' => 'inputDateTime',
-            'eval' => 'datetime,int',
+            'type' => 'datetime',
         ],
     ],
     'bm_image_gallery_description' => [
@@ -45,9 +47,9 @@ $temporaryColumns = [
     ],
 ];
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('sys_file_collection', $temporaryColumns);
+ExtensionManagementUtility::addTCAcolumns('sys_file_collection', $temporaryColumns);
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+ExtensionManagementUtility::addToAllTCAtypes(
     'sys_file_collection',
     '--div--;LLL:EXT:bm_image_gallery/Resources/Private/Language/locallang_be.xlf:bm_image_gallery_tab,' . implode(',', array_keys($temporaryColumns)) . ','
 );

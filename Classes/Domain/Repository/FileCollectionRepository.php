@@ -30,13 +30,13 @@ class FileCollectionRepository extends Typo3FileCollectionRepository implements 
 {
     use LoggerAwareTrait;
 
-    const SORTING_PROPERTY_DEFAULT = 'default';
+    final public const SORTING_PROPERTY_DEFAULT = 'default';
 
-    const SORTING_ORDER_ASC = 'ascending';
-    const SORTING_ORDER_DESC = 'descending';
-    const SORTING_ORDER_RAND = 'random';
+    final public const SORTING_ORDER_ASC = 'ascending';
+    final public const SORTING_ORDER_DESC = 'descending';
+    final public const SORTING_ORDER_RAND = 'random';
 
-    const TABLE_NAME = 'sys_file_collection';
+    final public const TABLE_NAME = 'sys_file_collection';
 
     protected $languageUid;
 
@@ -74,7 +74,7 @@ class FileCollectionRepository extends Typo3FileCollectionRepository implements 
                 if ($fileCollection instanceof AbstractFileCollection) {
                     $fileCollections[$collectionUid] = $fileCollection;
                 }
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $this->logger->warning(
                     sprintf(
                         'The file-collection with uid  "%s" could not be found or contents could not be loaded and won\'t be included in frontend output',
@@ -129,9 +129,7 @@ class FileCollectionRepository extends Typo3FileCollectionRepository implements 
             $localizedFileCollection = $queryBuilder
                 ->select('uid')
                 ->from(self::TABLE_NAME)
-                ->where($queryBuilder->expr()->eq($this->languageField, $queryBuilder->createNamedParameter($this->languageUid, \PDO::PARAM_INT)))
-                ->andWhere($queryBuilder->expr()->eq($this->languagePointer, $queryBuilder->createNamedParameter($fileCollectionUid, \PDO::PARAM_INT)))
-                ->execute()
+                ->where($queryBuilder->expr()->eq($this->languageField, $queryBuilder->createNamedParameter($this->languageUid, \PDO::PARAM_INT)))->andWhere($queryBuilder->expr()->eq($this->languagePointer, $queryBuilder->createNamedParameter($fileCollectionUid, \PDO::PARAM_INT)))->executeQuery()
                 ->fetchColumn();
 
             if ($localizedFileCollection) {

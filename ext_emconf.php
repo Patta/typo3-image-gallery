@@ -1,4 +1,5 @@
 <?php
+
 $EM_CONF['bm_image_gallery'] = [
     'title' => 'Simple Image Gallery',
     'description' => 'Simple gallery using file collections.',
@@ -8,8 +9,6 @@ $EM_CONF['bm_image_gallery'] = [
     'author_email' => 'dev@Leuchtfeuer.com',
     'author_company' => 'Leuchtfeuer Digital Marketing',
     'state' => 'alpha',
-    'uploadfolder' => false,
-    'clearCacheOnLoad' => false,
     'constraints' => [
         'depends' => [
             'typo3' => '12.4.10-12.4.99',
